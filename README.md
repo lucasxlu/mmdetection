@@ -33,6 +33,6 @@ mmdetection-plus is a enhanced object detection codebase for my research and pro
 
 **Note: If you only have 1 class, use CLASSES = [‘xx’], or you will get some trouble.**
 
-6. Re-install: python3 setup.py install
+6. Re-install: python3 setup.py develop
 
 The detailed description of training/test procedure can be found in [GETTING_STARTED](GETTING_STARTED.md).
