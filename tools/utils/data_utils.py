@@ -71,3 +71,24 @@ def crop_subregion_from_img(label_me_xml_path, img_dir, save_to_base_dir):
                                      "{0}_{1}_{2}.jpg".format(label_me_xml_name[0: -4], bbox_obj_class, i)), sub_region)
     
     print('done!')
+    
+
+def remove_redundant_xmls_or_jpgs(xml_dir, jpg_dir):
+    """
+    remove redundant xmls or images
+    """
+    xml_ids = [_ for _ in os.listdir(xml_dir) if _.endswith('.xml')]
+    jpg_ids = [_ for _ in os.listdir(jpg_dir) if _.endswith('.jpg')]
+
+    if len(xml_ids) < len(jpg_ids):
+        for jpg_id in jpg_ids:
+            if not os.path.exists(os.path.join(xml_dir, jpg_id.replace('.jpg', '.xml'))):
+                os.remove(os.path.join(jpg_dir, jpg_id))
+                print('deleting {}'.format(os.path.join(jpg_dir, jpg_id)))
+    elif len(xml_ids) > len(jpg_ids):
+        for xml_id in xml_ids:
+            if not os.path.exists(os.path.join(jpg_dir, xml_id.replace('.xml', '.jpg'))):
+                os.remove(os.path.join(xml_dir, xml_id))
+                print('deleting {}'.format(os.path.join(xml_dir, xml_id)))
+
+    print('done!')
