@@ -19,20 +19,21 @@ def split_train_val_test_detection_data(xml_dir):
 
     TEST_RATIO = 0.2
 
-    train = filenames[0:int(len(filenames) * (1 - TEST_RATIO))]
-    test = filenames[int(len(filenames) * (1 - TEST_RATIO)) + 1:]
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(filenames, [0 for _ in range(len(filenames))],
+                                                        test_size=TEST_RATIO, random_state=42)
 
-    val = train[0:int(len(train) * 0.1)]
-    train = train[int(len(train) * 0.1) + 1:]
+    X_train, X_val, y_train, y_val = train_test_split(X_train, [0 for _ in range(len(X_train))],
+                                                      test_size=0.05, random_state=42)
 
     with open('./train.txt', mode='wt', encoding='utf-8') as f:
-        f.writelines('\n'.join(train))
+        f.writelines('\n'.join(X_train))
 
     with open('./val.txt', mode='wt', encoding='utf-8') as f:
-        f.writelines('\n'.join(val))
+        f.writelines('\n'.join(X_val))
 
     with open('./test.txt', mode='wt', encoding='utf-8') as f:
-        f.writelines('\n'.join(test))
+        f.writelines('\n'.join(X_test))
 
 
 def mkdir_if_not_exist(dir_name):
